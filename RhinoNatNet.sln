@@ -1,22 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhinoNatNet", "RhinoNatNet\RhinoNatNet.csproj", "{9157A0DC-A100-4398-B7ED-4909A903F992}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug64|Any CPU = Debug64|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug64|x64 = Debug64|x64
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug64|Any CPU.ActiveCfg = Release|Any CPU
-		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug64|Any CPU.Build.0 = Release|Any CPU
-		{9157A0DC-A100-4398-B7ED-4909A903F992}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9157A0DC-A100-4398-B7ED-4909A903F992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug64|x64.ActiveCfg = Debug64|x64
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug64|x64.Build.0 = Debug64|x64
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Release|x64.ActiveCfg = Release|x64
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E3B062D-0E3B-4F14-865A-0E1233AF4553}
 	EndGlobalSection
 EndGlobal

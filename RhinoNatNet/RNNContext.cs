@@ -26,6 +26,8 @@ namespace RhinoNatNet
         private static MemoryMappedViewAccessor access;
         private static int buffer_size = sizeof(double) * 9;
 
+        private static System.Diagnostics.Stopwatch m_timer = new System.Diagnostics.Stopwatch();
+
         static Rhino.RhinoDoc doc;
 
         public RNNContext()
@@ -36,6 +38,12 @@ namespace RhinoNatNet
             counter = 0;
 
             SetPlane(Plane.WorldXY);
+            client = null;
+
+            Rhino.Display.DisplayPipeline.PostDrawObjects += DisplayPipeline_DrawMarkers;
+            Rhino.Display.DisplayPipeline.CalculateBoundingBox += DisplayPipeline_MarkersBoundingBox;
+
+            m_timer.Start();
         }
 
         ~RNNContext()
@@ -47,9 +55,22 @@ namespace RhinoNatNet
 
         public void TryConnect()
         {
+            if (client != null)
+            {
+                //client.Disconnect();
+            }
+
             Rhino.RhinoApp.Write("Attemping to connect to NatNet server... ");
             client = new NatNetClientML();
-            int res = client.Initialize("127.0.0.1", "127.0.0.1");
+
+            var cp = new NatNetClientML.ConnectParams();
+            cp.ConnectionType = ConnectionType.Multicast;
+            cp.LocalAddress = "127.0.0.1";
+            cp.ServerAddress = "127.0.0.1";
+            cp.ServerCommandPort = 1510;
+            cp.ServerDataPort = 1511;
+
+            int res = client.Connect(cp);
             if (res != 0)
             {
                 Rhino.RhinoApp.WriteLine("Failed.");
@@ -60,21 +81,66 @@ namespace RhinoNatNet
             Rhino.RhinoApp.WriteLine("Success.");
             IsConnected = true;
 
+            fetchServerDescriptor();
 
-            // testing only
-            /*
-            System.Random rnd = new Random();
-            for (int i = 0; i < 10; ++i)
-            {
-                markers.Add(new Point3d((rnd.NextDouble() - 0.5) * 500.0, (rnd.NextDouble() - 0.5) * 500.0, (rnd.NextDouble() - 0.5) * 500.0));
-            }
-            */
-
-            client.OnFrameReady += GetMarkersCallback;
-            Rhino.Display.DisplayPipeline.PostDrawObjects += DisplayPipeline_DrawMarkers;
-            Rhino.Display.DisplayPipeline.CalculateBoundingBox += DisplayPipeline_MarkersBoundingBox;
+            client.OnFrameReady += new NatNetML.FrameReadyEventHandler(fetchFrameData);
 
             Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
+        }
+
+        static bool fetchServerDescriptor()
+        {
+            NatNetML.ServerDescription m_ServerDescriptor = new NatNetML.ServerDescription();
+            int errorCode = client.GetServerDescription(m_ServerDescriptor);
+
+            if (errorCode == 0)
+            {
+                Console.WriteLine("Success: Connected to the server\n");
+                parseServerDescriptor(m_ServerDescriptor);
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Error: Failed to connect. Check the connection settings.");
+                return false;
+            }
+        }
+
+        static void parseServerDescriptor(NatNetML.ServerDescription server)
+        {
+            Console.WriteLine("Server Info:");
+            Console.WriteLine("\tHost: {0}", server.HostComputerName);
+            Console.WriteLine("\tApplication Name: {0}", server.HostApp);
+            Console.WriteLine("\tApplication Version: {0}.{1}.{2}.{3}", server.HostAppVersion[0], server.HostAppVersion[1], server.HostAppVersion[2], server.HostAppVersion[3]);
+            Console.WriteLine("\tNatNet Version: {0}.{1}.{2}.{3}\n", server.NatNetVersion[0], server.NatNetVersion[1], server.NatNetVersion[2], server.NatNetVersion[3]);
+        }
+
+        static void fetchFrameData(NatNetML.FrameOfMocapData data, NatNetML.NatNetClientML client)
+        {
+            if (m_timer.ElapsedMilliseconds < 30)
+                return;
+            m_timer.Restart();
+
+            /*  Exception handler for cases where assets are added or removed.
+                Data description is re-obtained in the main function so that contents
+                in the frame handler is kept minimal. */
+            //if (( data.bTrackingModelsChanged == true || data.nRigidBodies != mRigidBodies.Count || data.nSkeletons != mSkeletons.Count || data.nForcePlates != mForcePlates.Count))
+            //{
+            //  mAssetChanged = true;
+            //}
+
+            /*  Processing and ouputting frame data every 200th frame.
+                This conditional statement is included in order to simplify the program output */
+            //if (data.iFrame % 20 == 0)
+            //{
+            /*    if (data.bRecording == false)
+                    Console.WriteLine(string.Format("Frame #{0} Received:", data.iFrame));
+                else if (data.bRecording == true)
+                    Console.WriteLine(string.Format("[Recording] Frame #{0} Received:", data.iFrame));
+            */
+            
+                processFrameData(data);
+            //}
         }
 
         private static void DisplayPipeline_MarkersBoundingBox(object sender, Rhino.Display.CalculateBoundingBoxEventArgs e)
@@ -148,6 +214,35 @@ namespace RhinoNatNet
         public List<Point3d> GetMarkers()
         {
             return markers;
+        }
+
+        static void processFrameData(NatNetML.FrameOfMocapData data)
+        {
+            var new_points = new List<Point3d>();
+            var new_sizes = new List<float>();
+
+            for (int i = 0; i < data.nOtherMarkers; ++i)
+            {
+                var om = data.OtherMarkers[i];
+                new_points.Add(new Point3d(om.x, om.y, om.z));
+                new_sizes.Add(1.0f);
+            }
+
+            for (int i = 0; i < data.nMarkers; ++i)
+            {
+                var m = data.LabeledMarkers[i];
+                new_points.Add(new Point3d(m.x, m.y, m.z));
+                new_sizes.Add(1.0f);
+
+            }
+
+            if (new_points.Count > 0)
+            {
+                markers = new_points;
+                marker_sizes = new_sizes;
+            }
+
+            Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
         }
 
         public static void GetMarkersCallback(FrameOfMocapData frame, NatNetClientML client)
