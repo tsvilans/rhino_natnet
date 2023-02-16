@@ -1,0 +1,13 @@
+*.obj
+*.dll
+packages/
+
+NatNetMLClient/bin/
+NatNetMLClient/obj/
+NatNetMLClient Test/bin/
+NatNetMLClient Test/obj/
+RhinoNatNet/RhinoNatNet.csproj.user
+RhinoNatNet/obj/
+bin/NatNetML.xml
+
+.vs/
