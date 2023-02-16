@@ -65,8 +65,8 @@ namespace RhinoNatNet
 
             var cp = new NatNetClientML.ConnectParams();
             cp.ConnectionType = ConnectionType.Multicast;
-            cp.LocalAddress = "127.0.0.1";
-            cp.ServerAddress = "127.0.0.1";
+            cp.LocalAddress = "192.168.1.100";
+            cp.ServerAddress = "192.168.1.101";
             cp.ServerCommandPort = 1510;
             cp.ServerDataPort = 1511;
 

@@ -1,20 +1,46 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30517.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhinoNatNet", "RhinoNatNet\RhinoNatNet.csproj", "{9157A0DC-A100-4398-B7ED-4909A903F992}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatNetMLClient Test", "NatNetMLClient Test\NatNetMLClient Test.csproj", "{9F980EF8-9B02-4C92-B63B-A472984314A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug64|Any CPU = Debug64|Any CPU
 		Debug64|x64 = Debug64|x64
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug|Any CPU.ActiveCfg = Release|x64
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug|Any CPU.Build.0 = Release|x64
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug|x64.ActiveCfg = Debug64|x64
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug|x64.Build.0 = Debug64|x64
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug64|Any CPU.ActiveCfg = Debug64|x64
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug64|Any CPU.Build.0 = Debug64|x64
 		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug64|x64.ActiveCfg = Debug64|x64
 		{9157A0DC-A100-4398-B7ED-4909A903F992}.Debug64|x64.Build.0 = Debug64|x64
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Release|Any CPU.ActiveCfg = Release|x64
+		{9157A0DC-A100-4398-B7ED-4909A903F992}.Release|Any CPU.Build.0 = Release|x64
 		{9157A0DC-A100-4398-B7ED-4909A903F992}.Release|x64.ActiveCfg = Release|x64
 		{9157A0DC-A100-4398-B7ED-4909A903F992}.Release|x64.Build.0 = Release|x64
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Debug64|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Debug64|Any CPU.Build.0 = Debug|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Debug64|x64.ActiveCfg = Debug|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Debug64|x64.Build.0 = Debug|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{9F980EF8-9B02-4C92-B63B-A472984314A2}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
